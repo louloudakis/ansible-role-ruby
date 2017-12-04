@@ -2,12 +2,10 @@
 # Include OS-specific installation tasks.
 - include: setup-RedHat.yml
   when:
-    - ruby_install_from_source == False
     - ansible_os_family == 'RedHat'
 
 - include: setup-Debian.yml
   when:
-    - ruby_install_from_source == False
     - ansible_os_family == 'Debian'
 
 # Install ruby from source when ruby_install_from_source is true.

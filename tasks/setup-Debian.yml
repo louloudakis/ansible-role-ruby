@@ -14,3 +14,14 @@
     - ruby-dev
     - "{{ ruby_rubygems_package_name }}"
     - build-essential
+  when:
+    - ruby_install_from_source == False
+
+- name: Remove ruby, rubygems, and build-essential.
+  apt: "name={{ item }} state=absent"
+  with_items:
+    - ruby-full
+    - ruby-dev
+    - "{{ ruby_rubygems_package_name }}"
+  when:
+    - ruby_install_from_source == True

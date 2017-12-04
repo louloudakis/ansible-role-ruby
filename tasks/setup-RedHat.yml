@@ -6,3 +6,15 @@
     - ruby-devel
     - "{{ ruby_rubygems_package_name }}"
     - '@development'
+  when:
+    - ruby_install_from_source == False
+
+- name: Install ruby, rubygems, and development tools.
+  yum: "name={{ item }} state=absent"
+  with_items:
+    - ruby
+    - ruby-devel
+    - "{{ ruby_rubygems_package_name }}"
+    - '@development'
+  when:
+    - ruby_install_from_source == True
