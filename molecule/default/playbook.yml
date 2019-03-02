@@ -1,5 +1,7 @@
 ---
-- hosts: all
+- name: Converge
+  hosts: all
+  become: true
 
   vars:
     ruby_install_gems_user: root
@@ -9,15 +11,8 @@
 
   pre_tasks:
     - name: Update apt cache.
-      apt: update_cache=yes cache_valid_time=600
+      apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
-
-    - name: Use different gems for older OSes (Ubuntu 14.04).
-      set_fact:
-        ruby_install_gems: ['json']
-      when:
-        - ansible_distribution == 'Ubuntu'
-        - ansible_distribution_version == '14.04'
 
     - name: Add rubygems bin dir to system-wide $PATH.
       copy:
@@ -25,4 +20,9 @@
         content: 'PATH=$PATH:{{ ruby_gems_bin_path }}'
 
   roles:
-    - role_under_test
+    - role: geerlingguy.ruby
+
+  post_tasks:
+    - name: Verify Ruby is installed.
+      command: ruby --version
+      changed_when: false

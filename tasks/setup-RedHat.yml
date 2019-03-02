@@ -1,5 +1,6 @@
 ---
 - name: Install ruby, rubygems, and development tools.
+<<<<<<< HEAD
   yum: "name={{ item }} state=present"
   with_items:
     - ruby
@@ -18,3 +19,8 @@
     - '@development'
   when:
     - ruby_install_from_source == True
+=======
+  yum:
+    name: "{{ ruby_packages }}"
+    state: present
+>>>>>>> upstream/master
